@@ -1,0 +1,285 @@
+--- 获取玩家和玩家GUI
+local Player = game.Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
+
+-- 创建ScreenGui
+local screenGui = PlayerGui:FindFirstChild("DishWashingGame")
+if not screenGui then
+	screenGui = Instance.new("ScreenGui")
+	screenGui.Name = "DishWashingGame"
+	screenGui.Parent = PlayerGui
+end
+
+-- 创建左边字母组
+local leftLetterQ = Instance.new("TextLabel")
+leftLetterQ.Name = "LeftLetterQ"
+leftLetterQ.Size = UDim2.new(0, 80, 0, 80)
+leftLetterQ.Position = UDim2.new(0.3, -40, 0.5, -40)
+leftLetterQ.AnchorPoint = Vector2.new(0.5, 0.5)
+leftLetterQ.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+leftLetterQ.TextColor3 = Color3.new(0, 0, 0)
+leftLetterQ.TextSize = 48
+leftLetterQ.Font = Enum.Font.SourceSansBold
+leftLetterQ.Text = "Q"
+leftLetterQ.Parent = screenGui
+
+local leftLetterE = Instance.new("TextLabel")
+leftLetterE.Name = "LeftLetterE"
+leftLetterE.Size = UDim2.new(0, 80, 0, 80)
+leftLetterE.Position = UDim2.new(0.3, -40, 0.65, -40)
+leftLetterE.AnchorPoint = Vector2.new(0.5, 0.5)
+leftLetterE.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+leftLetterE.TextColor3 = Color3.new(0, 0, 0)
+leftLetterE.TextSize = 48
+leftLetterE.Font = Enum.Font.SourceSansBold
+leftLetterE.Text = "E"
+leftLetterE.Parent = screenGui
+
+-- 创建右边字母组
+local rightLetterR = Instance.new("TextLabel")
+rightLetterR.Name = "RightLetterR"
+rightLetterR.Size = UDim2.new(0, 80, 0, 80)
+rightLetterR.Position = UDim2.new(0.7, -40, 0.5, -40)
+rightLetterR.AnchorPoint = Vector2.new(0.5, 0.5)
+rightLetterR.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+rightLetterR.TextColor3 = Color3.new(0, 0, 0)
+rightLetterR.TextSize = 48
+rightLetterR.Font = Enum.Font.SourceSansBold
+rightLetterR.Text = "R"
+rightLetterR.Parent = screenGui
+
+local rightLetterF = Instance.new("TextLabel")
+rightLetterF.Name = "RightLetterF"
+rightLetterF.Size = UDim2.new(0, 80, 0, 80)
+rightLetterF.Position = UDim2.new(0.7, -40, 0.65, -40)
+rightLetterF.AnchorPoint = Vector2.new(0.5, 0.5)
+rightLetterF.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+rightLetterF.TextColor3 = Color3.new(0, 0, 0)
+rightLetterF.TextSize = 48
+rightLetterF.Font = Enum.Font.SourceSansBold
+rightLetterF.Text = "F"
+rightLetterF.Parent = screenGui
+
+-- 创建清洗菜肴数量的标签
+local dishCountLabel = Instance.new("TextLabel")
+dishCountLabel.Name = "DishCountLabel"
+dishCountLabel.Size = UDim2.new(0, 300, 0, 60)
+dishCountLabel.Position = UDim2.new(0.5, -150, 0.1, -30)
+dishCountLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+dishCountLabel.BackgroundTransparency = 1
+dishCountLabel.TextColor3 = Color3.new(1, 1, 1)
+dishCountLabel.TextSize = 36
+dishCountLabel.Font = Enum.Font.SourceSansBold
+dishCountLabel.Text = "清洗的菜肴数量：0"
+dishCountLabel.Parent = screenGui
+
+-- 创建泥土百分比的标签
+local dirtLabel = Instance.new("TextLabel")
+dirtLabel.Name = "DirtLabel"
+dirtLabel.Size = UDim2.new(0, 300, 0, 60)
+dirtLabel.Position = UDim2.new(0.5, -150, 0.2, -30)
+dirtLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+dirtLabel.BackgroundTransparency = 1
+dirtLabel.TextColor3 = Color3.new(1, 1, 1)
+dirtLabel.TextSize = 36
+dirtLabel.Font = Enum.Font.SourceSansBold
+dirtLabel.Text = "泥土：100%"
+dirtLabel.Parent = screenGui
+
+-- 创建目标序列的标签
+local targetSequenceLabel = Instance.new("TextLabel")
+targetSequenceLabel.Name = "TargetSequenceLabel"
+targetSequenceLabel.Size = UDim2.new(0, 400, 0, 40)
+targetSequenceLabel.Position = UDim2.new(0.5, -200, 0.8, -20)
+targetSequenceLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+targetSequenceLabel.BackgroundTransparency = 1
+targetSequenceLabel.TextColor3 = Color3.new(1, 1, 1)
+targetSequenceLabel.TextSize = 32
+targetSequenceLabel.Font = Enum.Font.SourceSansBold
+targetSequenceLabel.Text = "目标序列: R F R R Q"
+targetSequenceLabel.Parent = screenGui
+
+-- 创建速度倍率的标签
+local speedLabel = Instance.new("TextLabel")
+speedLabel.Name = "SpeedLabel"
+speedLabel.Size = UDim2.new(0, 200, 0, 40)
+speedLabel.Position = UDim2.new(0.5, -100, 0.9, -20)
+speedLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+speedLabel.BackgroundTransparency = 1
+speedLabel.TextColor3 = Color3.new(1, 1, 1)
+speedLabel.TextSize = 32
+speedLabel.Font = Enum.Font.SourceSansBold
+speedLabel.Text = "0.25x"
+speedLabel.Parent = screenGui
+
+-- 创建控制按钮
+local controlButton = Instance.new("TextButton")
+controlButton.Name = "ControlButton"
+controlButton.Size = UDim2.new(0, 200, 0, 50)
+controlButton.Position = UDim2.new(0.5, -100, 0.3, -25)
+controlButton.AnchorPoint = Vector2.new(0.5, 0.5)
+controlButton.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+controlButton.TextColor3 = Color3.new(1, 1, 1)
+controlButton.TextSize = 28
+controlButton.Font = Enum.Font.SourceSansBold
+controlButton.Text = "开始自动(0.1秒)"
+controlButton.Parent = screenGui
+
+-- 游戏变量
+local sequence = {"R", "F", "R", "R", "Q"}  -- 目标序列
+local currentSequenceIndex = 1  -- 当前目标序列位置
+local dishCount = 0  -- 清洗菜肴数量
+local dirtPercentage = 100  -- 泥土百分比
+local isAutoRunning = false  -- 是否正在自动运行
+local autoConnection = nil  -- 自动运行的连接
+
+-- 重置所有字母为白色
+local function resetAllLetters()
+	leftLetterQ.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	leftLetterE.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	rightLetterR.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	rightLetterF.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+end
+
+-- 设置黄色字母
+local function setYellowLetter(letter)
+	resetAllLetters()
+	
+	if letter == "Q" then
+		leftLetterQ.BackgroundColor3 = Color3.fromRGB(255, 255, 0)  -- 黄色
+	elseif letter == "E" then
+		leftLetterE.BackgroundColor3 = Color3.fromRGB(255, 255, 0)  -- 黄色
+	elseif letter == "R" then
+		rightLetterR.BackgroundColor3 = Color3.fromRGB(255, 255, 0)  -- 黄色
+	elseif letter == "F" then
+		rightLetterF.BackgroundColor3 = Color3.fromRGB(255, 255, 0)  -- 黄色
+	end
+end
+
+-- 更新显示
+local function updateDisplay()
+	dishCountLabel.Text = "清洗的菜肴数量：" .. dishCount
+	dirtLabel.Text = "泥土：" .. dirtPercentage .. "%"
+	speedLabel.Text = "0.25x"
+	
+	-- 更新目标序列显示（高亮当前需要按的字母）
+	local sequenceText = "目标序列: "
+	for i, char in ipairs(sequence) do
+		if i == currentSequenceIndex then
+			sequenceText = sequenceText .. " [" .. char .. "] "
+		else
+			sequenceText = sequenceText .. " " .. char .. " "
+		end
+	end
+	targetSequenceLabel.Text = sequenceText
+end
+
+-- 处理按键逻辑
+local function processKeyPress(key)
+	-- 检查按下的键是否正确
+	if key == sequence[currentSequenceIndex] then
+		-- 正确的按键
+		currentSequenceIndex = currentSequenceIndex + 1
+		
+		-- 如果完成整个序列
+		if currentSequenceIndex > #sequence then
+			dishCount = dishCount + 1
+			currentSequenceIndex = 1
+			dirtPercentage = math.max(0, dirtPercentage - 5)  -- 完成一个序列减少5%泥土
+			
+			-- 如果泥土用完，停止游戏
+			if dirtPercentage <= 0 then
+				if isAutoRunning then
+					controlButton:Fire("MouseButton1Click")  -- 触发停止按钮
+				end
+			end
+		end
+		
+		-- 更新显示
+		updateDisplay()
+	else
+		-- 错误的按键，重置序列
+		currentSequenceIndex = 1
+		updateDisplay()
+	end
+end
+
+-- 自动运行逻辑
+local function startAutoRun()
+	if isAutoRunning then return end
+	
+	isAutoRunning = true
+	controlButton.Text = "停止自动"
+	controlButton.BackgroundColor3 = Color3.fromRGB(120, 0, 0)  -- 红色
+	
+	-- 创建自动运行循环
+	autoConnection = game:GetService("RunService").Heartbeat:Connect(function()
+		if not isAutoRunning then return end
+		
+		-- 检查泥土是否用完
+		if dirtPercentage <= 0 then
+			controlButton:Fire("MouseButton1Click")  -- 触发停止按钮
+			return
+		end
+		
+		-- 获取当前需要按的键
+		local currentKey = sequence[currentSequenceIndex]
+		
+		-- 设置该字母为黄色
+		setYellowLetter(currentKey)
+		
+		-- 模拟按键
+		processKeyPress(currentKey)
+		
+		-- 等待0.1秒
+		wait(0.1)
+	end)
+end
+
+-- 停止自动运行
+local function stopAutoRun()
+	if not isAutoRunning then return end
+	
+	isAutoRunning = false
+	if autoConnection then
+		autoConnection:Disconnect()
+		autoConnection = nil
+	end
+	
+	controlButton.Text = "开始自动(0.1秒)"
+	controlButton.BackgroundColor3 = Color3.fromRGB(0, 120, 0)  -- 绿色
+	
+	-- 重置所有字母为白色
+	resetAllLetters()
+end
+
+-- 控制按钮点击事件
+controlButton.MouseButton1Click:Connect(function()
+	if isAutoRunning then
+		stopAutoRun()
+	else
+		startAutoRun()
+	end
+end)
+
+-- 初始显示
+resetAllLetters()
+updateDisplay()
+
+-- 键盘输入监听（手动游戏）
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	
+	local keyPressed = input.KeyCode.Name
+	if keyPressed == "Q" or keyPressed == "E" or keyPressed == "R" or keyPressed == "F" then
+		if not isAutoRunning then
+			-- 手动模式下，检查当前黄色字母是否正确
+			local currentKey = sequence[currentSequenceIndex]
+			setYellowLetter(currentKey)  -- 设置正确的字母为黄色
+			
+			-- 短暂延迟后处理按键
+			wait(0.05)
+			processKeyPress(keyPressed)
+		end
+	end
+end)
